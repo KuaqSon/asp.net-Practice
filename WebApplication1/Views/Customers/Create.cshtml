@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication1.Models.Customer>
+﻿@model WebApplication1.Models.Customer
 @{
     ViewBag.Title = "Create";
 }
@@ -10,7 +10,7 @@
 </a>
 
 
-<form action="/Customers/Create" method="post">
+<form action="@Url.Action("Create","Customers")" method="post">
     @Html.AntiForgeryToken()
     <div>
         <label>Name</label> <br />

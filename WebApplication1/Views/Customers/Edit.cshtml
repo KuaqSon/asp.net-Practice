@@ -1,0 +1,32 @@
+﻿@model WebApplication1.Models.Customer
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form action="@Url.Action("Edit","Customers")" method="post">
+    @Html.AntiForgeryToken()
+    <div>
+        <label>Name</label> <br />
+        @Html.TextBoxFor(x => x.Name)
+    </div>
+    <div>
+        <label>Date Of Birth</label><br />        
+        @Html.TextBoxFor(x => x.Dob, new { placeholder="day of birth" })
+    </div>
+    <div>
+        <label>Gender</label><br />
+        @Html.TextBoxFor(x => x.Gender)
+    </div>
+    <div>
+        <label>Address</label><br />
+        @Html.TextBoxFor(x => x.Address)
+    </div>
+    <div>
+        <label>Phone Number</label><br />
+        @Html.TextBoxFor(x => x.PhoneNumber)
+    </div>
+    <br />
+    <input type="submit" value="Edit" />
+</form>

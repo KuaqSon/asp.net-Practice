@@ -48,6 +48,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
+            <td>
+                <a href="@Url.Action("Edit","Customers", new { id = item.ID})">Edit</a> - 
+                <a href="@Url.Action("Details","Customers", new { id = item.ID})">Details</a> - 
+                <a href="@Url.Action("DeleteConfirm",new { id = item.ID})">Delete</a>
+            </td>
         </tr>
     }
 
