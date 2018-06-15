@@ -6,19 +6,19 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using WebApplication1.Models;
 using System.Net;
+using PagedList;
 
 namespace WebApplication1.Controllers
 {
     public class CustomersController : Controller
     {
-        private CustomerDBContext db = new CustomerDBContext();
+        private MovieDbContext db = new MovieDbContext();
 
         //GET: Customer 
         public ActionResult Index()
         {
             return View(db.Customers.ToList());
         }
-
         [HttpGet]
         public ActionResult Create(string Title)
         {
@@ -107,7 +107,7 @@ namespace WebApplication1.Controllers
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
 
-        public ActionResult DeleteConfirm(int id)
+        public ActionResult DeleteConfirm(int id) //--> no jump to Delete Page
         {
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);

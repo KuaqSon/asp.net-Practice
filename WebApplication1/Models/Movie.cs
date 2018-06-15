@@ -18,8 +18,8 @@ namespace WebApplication1.Models
         public string Rating { get; set; }
     }
 
-    public class MovieDBcontext: DbContext
-    {
-        public DbSet<Movie> Movies { get; set; }
-    }
+    //public class MovieDBcontext: DbContext
+    //{
+    //    public DbSet<Movie> Movies { get; set; }
+    //}
 }

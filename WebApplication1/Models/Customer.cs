@@ -21,8 +21,8 @@ namespace WebApplication1.Models
         public string PhoneNumber { get; set; }
     }
 
-    public class CustomerDBContext : DbContext
-    {
-        public DbSet<Customer> Customers { get; set; }
-    }
+    //public class CustomerDBContext : DbContext
+    //{
+    //    public DbSet<Customer> Customers { get; set; }
+    //}
 }

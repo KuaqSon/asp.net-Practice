@@ -7,33 +7,88 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using PagedList;
 
 namespace WebApplication1.Controllers
 {
     public class MoviesController : Controller
     {
-        private MovieDBcontext db = new MovieDBcontext();
+        public MoviesController()
+        {
+                
+        }
+
+        private MovieDbContext db = new MovieDbContext();
 
         // GET: Movies
-        public ActionResult Index(string movieGenre, string searchString)
-        {
-            var GenreList = new List<string>();
-            var GenreQry = db.Movies.OrderBy(x => x.Genre).Select(x => x.Genre);
-            GenreList.AddRange(GenreQry.Distinct());
-            ViewBag.movieGenre = new SelectList(GenreList);
+        //public ActionResult Index(string movieGenre, string searchString)
+        //{
+        //    var GenreList = new List<string>();
+        //    var GenreQry = db.Movies.OrderBy(x => x.Genre).Select(x => x.Genre);
+        //    GenreList.AddRange(GenreQry.Distinct());
+        //    ViewBag.movieGenre = new SelectList(GenreList);
 
-            var movies = db.Movies.Select(s => s);
+        //    var movies = db.Movies.Select(s => s);
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        movies = movies.Where(s => s.Title.Contains(searchString));
+        //    }
+        //    if (!string.IsNullOrEmpty(movieGenre))
+        //    {
+        //        movies = movies.Where(x => x.Genre == movieGenre);
+        //    }   
+        //    return View(movies);
+        //    //return View(db.Movies.ToList());
+        //}
+
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var movies = from s in db.Movies
+                           select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 movies = movies.Where(s => s.Title.Contains(searchString));
             }
-            if (!string.IsNullOrEmpty(movieGenre))
+            switch (sortOrder)
             {
-                movies = movies.Where(x => x.Genre == movieGenre);
-            }   
-            return View(movies);
-            //return View(db.Movies.ToList());
+                case "name_desc":
+                    movies = movies.OrderByDescending(s => s.Title);
+                    break;
+                case "Date":
+                    movies = movies.OrderBy(s => s.ReleaseDate);
+                    break;
+                case "date_desc":
+                    movies = movies.OrderByDescending(s => s.ReleaseDate);
+                    break;
+                default:  // Name ascending 
+                    movies = movies.OrderBy(s => s.Title);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            var viewModel = movies.ToPagedList(pageNumber, pageSize);
+            return View(viewModel);
         }
+
+
+       
+
 
         // GET: Movies/Details/5
         public ActionResult Details(int? id)
