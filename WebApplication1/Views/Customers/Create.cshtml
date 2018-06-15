@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebApplication1.Models.Customer>
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<a href="@Url.Action("Index","Customers")">
+    Back To Customer List
+</a>
+
+
+<form action="/Customers/Create" method="post">
+    @Html.AntiForgeryToken()
+    <div>
+        <label>Name</label> <br />
+        <input type="text" name="Name" />
+    </div>
+    <div>
+        <label>Date Of Birth</label><br />
+        <input type="text" name="Dob" />
+    </div>
+    <div>
+        <label>Gender</label><br />
+        <input type="text" name="Gender" />
+    </div>
+    <div>
+        <label>Address</label><br />
+        <input type="text" name="Address" />
+    </div>
+    <div>
+        <label>Phone Number</label><br />
+        <input type="text" name="PhoneNumber" />
+    </div>
+    <br />
+    <input type="submit" value="Create" />
+</form>
+
