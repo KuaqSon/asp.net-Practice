@@ -15,10 +15,58 @@ namespace WebApplication1.Controllers
         private MovieDbContext db = new MovieDbContext();
 
         //GET: Customer 
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    return View(db.Customers.ToList());
+        //}
+
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Customers.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var customers = from s in db.Customers
+                         select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(s => s.Name.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customers = customers.OrderByDescending(s => s.ID);
+                    break;
+                case "Date":
+                    customers = customers.OrderBy(s => s.Dob);
+                    break;
+                case "date_desc":
+                    customers = customers.OrderByDescending(s => s.Dob);
+                    break;
+                default:  // Name ascending 
+                    customers = customers.OrderBy(s => s.Name);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            var viewModel = customers.ToPagedList(pageNumber, pageSize);
+            return View(viewModel);
         }
+
+
+
         [HttpGet]
         public ActionResult Create(string Title)
         {

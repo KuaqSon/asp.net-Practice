@@ -7,17 +7,20 @@
 
 <h2>Index</h2>
 
-<p>
+<p class="btn btn-light">
+    
     @Html.ActionLink("Create New", "Create")
+    
     @using (Html.BeginForm("Index", "Movies", FormMethod.Get))
     {
     <p>
         @*@Html.DropDownList("movieGenre", "All")*@
-        Title: @Html.TextBox("SearchString")
-        <input type="submit" value="Filter" />
+        Title: @Html.TextBox("SearchString",null,new {@class="form-control" })
+
+        <input class="btn btn-success" type="submit" value="Filter" />
     </p>
-}
-    </p>
+     }
+</p>
     <table class="table">
         <thead>
             <tr>

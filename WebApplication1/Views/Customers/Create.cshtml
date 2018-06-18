@@ -5,34 +5,36 @@
 
 <h2>Create</h2>
 
-<a href="@Url.Action("Index","Customers")">
-    Back To Customer List
-</a>
+<p class="btn btn-light">
+    <a href="@Url.Action("Index","Customers")">
+        Back To Customer List
+    </a>
+</p>
 
 
 <form action="@Url.Action("Create","Customers")" method="post">
     @Html.AntiForgeryToken()
     <div>
         <label>Name</label> <br />
-        <input type="text" name="Name" />
+        <input type="text" name="Name" class="form-control text-box single-line"/>
     </div>
     <div>
         <label>Date Of Birth</label><br />
-        <input type="text" name="Dob" />
+        <input type="text" name="Dob" class="form-control text-box single-line"/>
     </div>
     <div>
         <label>Gender</label><br />
-        <input type="text" name="Gender" />
+        <input type="text" name="Gender" class="form-control text-box single-line"/>
     </div>
     <div>
         <label>Address</label><br />
-        <input type="text" name="Address" />
+        <input type="text" name="Address" class="form-control text-box single-line"/>
     </div>
     <div>
         <label>Phone Number</label><br />
-        <input type="text" name="PhoneNumber" />
+        <input type="text" name="PhoneNumber" class="form-control text-box single-line"/>
     </div>
     <br />
-    <input type="submit" value="Create" />
+    <input type="submit" value="Create" class="btn btn-success"/>
 </form>
 
