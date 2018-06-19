@@ -18,23 +18,23 @@
 
         <div>
             <label>Name</label> <br />
-            @Html.EditorFor(x => x.Name)
+            @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div>
             <label>Date Of Birth</label><br />
-            @Html.EditorFor(x => x.Dob)
+            @Html.EditorFor(x => x.Dob, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div>
             <label>Gender</label><br />
-            @Html.EditorFor(x => x.Gender)
+            @Html.EditorFor(x => x.Gender, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div>
             <label>Address</label><br />
-            @Html.EditorFor(x => x.Address)
+            @Html.EditorFor(x => x.Address, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div>
             <label>Phone Number</label><br />
-            @Html.EditorFor(x => x.PhoneNumber)
+            @Html.EditorFor(x => x.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <br />
     </form>

@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 4;
             int pageNumber = (page ?? 1);
             var viewModel = customers.ToPagedList(pageNumber, pageSize);
             return View(viewModel);
@@ -211,7 +211,19 @@ namespace WebApplication1.Controllers
             return new EmptyResult();
         }
 
-
+        public ActionResult Search(string searchString)
+        {
+            var customers = db.Customers.Select(x => x);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(s => s.Name.Contains(searchString));
+            }
+            customers = customers.OrderBy(x => x.Name);
+            var pageSize = 4;
+            var pageNumber = 1;
+            var listCustomer = customers.ToPagedList(pageNumber,pageSize);
+            return PartialView("_CustomerList", listCustomer);
+        }
         
         protected override void Dispose(bool disposing)
         {

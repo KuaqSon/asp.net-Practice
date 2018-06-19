@@ -18,23 +18,23 @@
 
         <div>
             <label>Name</label> <br />
-            @Html.TextBoxFor(x => x.Name)
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
         </div>
         <div>
             <label>Date Of Birth</label><br />
-            @Html.TextBoxFor(x => x.Dob)
+            @Html.TextBoxFor(x => x.Dob, new { @class = "form-control" })
         </div>
         <div>
             <label>Gender</label><br />
-            @Html.TextBoxFor(x => x.Gender)
+            @Html.TextBoxFor(x => x.Gender, new { @class = "form-control" })
         </div>
         <div>
             <label>Address</label><br />
-            @Html.TextBoxFor(x => x.Address)
+            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
         </div>
         <div>
             <label>Phone Number</label><br />
-            @Html.TextBoxFor(x => x.PhoneNumber)
+            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control" })
         </div>
         <br />
     </form>

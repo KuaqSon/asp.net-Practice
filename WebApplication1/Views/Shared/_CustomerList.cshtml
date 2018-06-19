@@ -1,0 +1,43 @@
+﻿@model PagedList.IPagedList<WebApplication1.Models.Customer>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "_CustomerList";
+}
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Date Of Birth
+        </th>
+        <th>
+            Gender
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            PhoneNumber
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        @*@{Html.RenderPartial("_CustomerRow", item); }*@
+        @Html.Partial("_CustomerRow", item)
+    }
+
+
+</table>
+
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

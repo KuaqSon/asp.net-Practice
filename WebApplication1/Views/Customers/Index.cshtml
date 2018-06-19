@@ -20,154 +20,163 @@
     <button class="btn btn-success bttCreate" type="button" data-url="@Url.Action("CreateModal","Customers")">
         Add
     </button>
+    <input class="form-control searchBox" id="Search" name="Search" value="" type="text" data-url="@Url.Action("Search","Customers")" />
 </div>
 
+<div id="table-content">
 
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Date Of Birth
-        </th>
-        <th>
-            Gender
-        </th>
-        <th>
-            Address
-        </th>
-        <th>
-            PhoneNumber
-        </th>
-        <th></th>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Date Of Birth
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                PhoneNumber
+            </th>
+            <th></th>
+        </tr>
 
-    @foreach (var item in Model)
-    {
+        @foreach (var item in Model)
+        {
 
-        @*@{Html.RenderPartial("_CustomerRow", item); }*@
-                @Html.Partial("_CustomerRow", item)
-    }
-
-
-</table>
-
-@section Scripts {
-
-    <script type="text/javascript">
-
-        var isEdit = false;
-
-        $(document).on("click", ".bttCreate", function (e) {
-            e.preventDefault();
-            var $self = $(this);
-            var url = $self.data("url");
-            $.ajax({
-                url: url,
-                success: function (response) {
-                    $(".modal-content").html(response);
-                    $("#exampleModalCenter").modal('show');
-                }
-            });
-        });
-
-        $(document).on("click", ".bttEdit", function (e) {
-            e.preventDefault();
-            var $self = $(this);
-            var url = $self.data("url");
-            $.ajax({
-                url: url,
-                success: function (response) {
-                    isEdit = true;
-                    $(".modal-content").html(response);
-                    $("#exampleModalCenter").modal('show');
-                }
-            });
-        });
-
-        
-        $(document).on("click", ".bttSave", function (e) {
-            e.preventDefault();
-            var $self = $(this);
-            var id = $self.data("id");
-            var url = $self.data("url");
-            var $form = $("#customerForm").serialize();
-
-            if (!isEdit) {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: $form,
-                    success: function (response) {
-                        if (response != null) {
-                            $(".table").append(response);
-                        }
-                        $("#exampleModalCenter").modal('hide');
-                    }
-                });
-            }
-            else {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: $form,
-                    success: function (response) {
-                        if (response != null) {
-                            $("tr[data-id=" + id + "]").replaceWith(response);
-                        }
-                        isEdit = false;
-                        $("#exampleModalCenter").modal('hide');
-                    }
-                });
-                
-
-            }
-        });
-
-        $(document).on("click", ".bttDelete", function () {
-            e.preventDefault();
-            var $self = $(this);
-            var url = $self.data("url");
-            $.ajax({
-                url: url,
-                success: function (response) {
-                    $(".modal-content").html(response);
-                    $("#exampleModalCenter").modal('show');
-                }
-            });
-        });
-
-        $(document).on("click", ".bttConfirm", function (e) {
-            var confirmDelete = confirm("Are you sure you want to delete costomer ??");
-            var $self = $(this);
-            var id = $self.data("id");
-            var url = $self.data("url");
-            var tr = $self.closest("tr");
-            if (confirmDelete) {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    success: function (response) {
-                        if (response != null) {
-                            //$("tr[data-id=" + id + "]").remove();
-                            tr.remove();
-                        }
-                        $("#exampleModalCenter").modal('hide');
-                    }
-                });
-            }
-        });
+            @*@{Html.RenderPartial("_CustomerRow", item); }*@
+            @Html.Partial("_CustomerRow", item)
+        }
 
 
-      
-    </script>
-
-}
+    </table>
 
 
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Index",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+
+
+    @section Scripts {
+
+        <script type="text/javascript">
+
+            var isEdit = false;
+
+            $(document).on("keyup", ".searchBox", function () {
+                var $self = $(this);
+                var url = $self.data("url");
+                var data = $self.val();
+                console.log(data);
+                $.ajax({
+                    url: url +"?searchString=" +data,
+                    //data: { searchString: data },
+                    success: function (response) {
+                        $("#table-content").html(response);
+                    }
+                });
+
+            });
+
+            $(document).on("click", ".bttCreate", function (e) {
+                e.preventDefault();
+                var $self = $(this);
+                var url = $self.data("url");
+                $.ajax({
+                    url: url,
+                    success: function (response) {
+                        $(".modal-content").html(response);
+                        $("#exampleModalCenter").modal('show');
+                    }
+                });
+            });
+
+            $(document).on("click", ".bttEdit", function (e) {
+                e.preventDefault();
+                var $self = $(this);
+                var url = $self.data("url");
+                $.ajax({
+                    url: url,
+                    success: function (response) {
+                        isEdit = true;
+                        $(".modal-content").html(response);
+                        $("#exampleModalCenter").modal('show');
+                    }
+                });
+            });
+
+
+            $(document).on("click", ".bttSave", function (e) {
+                e.preventDefault();
+                var $self = $(this);
+                var id = $self.data("id");
+                var url = $self.data("url");
+                var $form = $("#customerForm").serialize();
+
+                if (!isEdit) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: $form,
+                        success: function (response) {
+                            if (response != null) {
+                                $(".table").append(response);
+                            }
+                            $("#exampleModalCenter").modal('hide');
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: $form,
+                        success: function (response) {
+                            if (response != null) {
+                                $("tr[data-id=" + id + "]").replaceWith(response);
+                            }
+                            isEdit = false;
+                            $("#exampleModalCenter").modal('hide');
+                        }
+                    });
+
+
+                }
+            });
+
+            $(document).on("click", ".bttConfirm", function (e) {
+                var confirmDelete = confirm("Are you sure you want to delete customer ??");
+                var $self = $(this);
+                var id = $self.data("id");
+                var url = $self.data("url");
+                var tr = $self.closest("tr");
+                if (confirmDelete) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        success: function (response) {
+                            if (response != null) {
+                                //$("tr[data-id=" + id + "]").remove();
+                                tr.remove();
+                            }
+                            $("#exampleModalCenter").modal('hide');
+                        }
+                    });
+                }
+            });
+
+
+
+        </script>
+
+    }
+
+
+
 
