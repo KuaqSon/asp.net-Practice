@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Data.Entity;
 using System.Web.Mvc;
 using WebApplication1.Models;
@@ -20,7 +18,7 @@ namespace WebApplication1.Controllers
         //    return View(db.Customers.ToList());
         //}
 
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -64,9 +62,7 @@ namespace WebApplication1.Controllers
             var viewModel = customers.ToPagedList(pageNumber, pageSize);
             return View(viewModel);
         }
-
-
-
+        
         [HttpGet]
         public ActionResult Create(string Title)
         {
@@ -134,7 +130,6 @@ namespace WebApplication1.Controllers
             return View(customer);
         }
 
-
         //GET Delete customer
         //[HttpGet]
         //public ActionResult Delete(int? id)
@@ -154,7 +149,13 @@ namespace WebApplication1.Controllers
         ////POST Delete customer
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
+      
+        //public ActionResult Delete()
+        //{
+        //    return PartialView("_ModalDelete",null);
+        //}
 
+       
         public ActionResult DeleteConfirm(int id) //--> no jump to Delete Page
         {
             Customer customer = db.Customers.Find(id);
@@ -163,6 +164,55 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult EditModal (int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_Modal",customer);
+        }
+
+        [HttpPost]
+        public ActionResult EditModal(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return PartialView("_CustomerRow", customer);
+            }
+            //return View(customer);
+            return new EmptyResult();
+            // return partialView -> rows
+        }
+
+        [HttpGet]
+        public ActionResult CreateModal()
+        {
+            Customer customer = new Customer();
+            return PartialView("_ModalAdd",customer);
+        }
+
+        [HttpPost]
+        public ActionResult CreateModal(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Customers.Add(customer);
+                db.SaveChanges();
+                return PartialView("_CustomerRow", customer);
+            }
+            return new EmptyResult();
+        }
+
+
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -171,6 +221,5 @@ namespace WebApplication1.Controllers
             }
             base.Dispose(disposing);
         }
-
     }
 }

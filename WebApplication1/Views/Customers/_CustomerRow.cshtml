@@ -1,0 +1,28 @@
+﻿@model WebApplication1.Models.Customer
+
+@{
+    var item = Model;
+}
+
+<tr data-id="@item.ID">
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Dob)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Gender)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PhoneNumber)
+    </td>
+    <td>
+        <button class="btn btn-info bttEdit" type="button" data-url="@Url.Action("EditModal","Customers", new { id = item.ID})">Edit</button> -
+
+        <button class="btn btn-info bttConfirm" type="button" data-url="@Url.Action("DeleteConfirm",new { id = item.ID})">Delete</button>
+    </td>
+</tr>

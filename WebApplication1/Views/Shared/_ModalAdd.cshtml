@@ -1,0 +1,45 @@
+﻿@model WebApplication1.Models.Customer
+@{
+    ViewBag.Title = "_Modal";
+}
+
+@*<h2>_Modal</h2>*@
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Customer Info</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form action="@Url.Action("CreateModal","Customers")" method="post" class="form-control" id="customerForm">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.ID)
+
+        <div>
+            <label>Name</label> <br />
+            @Html.EditorFor(x => x.Name)
+        </div>
+        <div>
+            <label>Date Of Birth</label><br />
+            @Html.EditorFor(x => x.Dob)
+        </div>
+        <div>
+            <label>Gender</label><br />
+            @Html.EditorFor(x => x.Gender)
+        </div>
+        <div>
+            <label>Address</label><br />
+            @Html.EditorFor(x => x.Address)
+        </div>
+        <div>
+            <label>Phone Number</label><br />
+            @Html.EditorFor(x => x.PhoneNumber)
+        </div>
+        <br />
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary bttSave" data-id="@Model.ID" data-url="@Url.Action("CreateModal","Customers")">Save</button>
+</div>

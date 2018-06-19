@@ -280,6 +280,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
+    <Content Include="Views\Customers\_CustomerRow.cshtml" />
+    <Content Include="Views\Shared\_ModalAdd.cshtml" />
+    <Content Include="Views\Shared\_ModalDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

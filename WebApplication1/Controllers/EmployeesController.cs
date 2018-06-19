@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 
@@ -11,7 +8,6 @@ namespace WebApplication1.Controllers
     public class EmployeesController : Controller
     {
         private MovieDbContext db = new MovieDbContext();
-
 
         // GET: /AjaxStuff/Create
         public ActionResult Create()

@@ -7,67 +7,160 @@
 
 <h2>List Customers </h2>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <button class="btn btn-success bttCreate" type="button" data-url="@Url.Action("CreateModal","Customers")">
+        Add
+    </button>
+</div>
 
 
-<p class="btn btn-light">
-    @Html.ActionLink("Add New Customer", "Create")
-</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Date Of Birth
+        </th>
+        <th>
+            Gender
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            PhoneNumber
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        @*@{Html.RenderPartial("_CustomerRow", item); }*@
+                @Html.Partial("_CustomerRow", item)
+    }
 
 
-<div></div>
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Date Of Birth
-            </th>
-            <th>
-                Gender
-            </th>
-            <th>
-                Address
-            </th>
-            <th>
-                PhoneNumber
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Dob)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit","Customers", new { id = item.ID})">Edit</a> -
-                    <a href="@Url.Action("Details","Customers", new { id = item.ID})">Details</a> -
-                    <a href="@Url.Action("DeleteConfirm",new { id = item.ID})">Delete</a>
-                </td>
-            </tr>
-        }
-
-
-    </table>
+</table>
 
 @section Scripts {
 
     <script type="text/javascript">
 
+        var isEdit = false;
+
+        $(document).on("click", ".bttCreate", function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            var url = $self.data("url");
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    $(".modal-content").html(response);
+                    $("#exampleModalCenter").modal('show');
+                }
+            });
+        });
+
+        $(document).on("click", ".bttEdit", function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            var url = $self.data("url");
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    isEdit = true;
+                    $(".modal-content").html(response);
+                    $("#exampleModalCenter").modal('show');
+                }
+            });
+        });
+
+        
+        $(document).on("click", ".bttSave", function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            var id = $self.data("id");
+            var url = $self.data("url");
+            var $form = $("#customerForm").serialize();
+
+            if (!isEdit) {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: $form,
+                    success: function (response) {
+                        if (response != null) {
+                            $(".table").append(response);
+                        }
+                        $("#exampleModalCenter").modal('hide');
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: $form,
+                    success: function (response) {
+                        if (response != null) {
+                            $("tr[data-id=" + id + "]").replaceWith(response);
+                        }
+                        isEdit = false;
+                        $("#exampleModalCenter").modal('hide');
+                    }
+                });
+                
+
+            }
+        });
+
+        $(document).on("click", ".bttDelete", function () {
+            e.preventDefault();
+            var $self = $(this);
+            var url = $self.data("url");
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    $(".modal-content").html(response);
+                    $("#exampleModalCenter").modal('show');
+                }
+            });
+        });
+
+        $(document).on("click", ".bttConfirm", function (e) {
+            var confirmDelete = confirm("Are you sure you want to delete costomer ??");
+            var $self = $(this);
+            var id = $self.data("id");
+            var url = $self.data("url");
+            var tr = $self.closest("tr");
+            if (confirmDelete) {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function (response) {
+                        if (response != null) {
+                            //$("tr[data-id=" + id + "]").remove();
+                            tr.remove();
+                        }
+                        $("#exampleModalCenter").modal('hide');
+                    }
+                });
+            }
+        });
+
+
+      
     </script>
 
 }
@@ -77,3 +170,4 @@
 
     @Html.PagedListPager(Model, page => Url.Action("Index",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
