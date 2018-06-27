@@ -19,6 +19,10 @@ namespace WebApplication1
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer<MovieDbContext>(null);
+
+            DependencyConfig.Register();
+
+            MappingConfig.RegisterMapping();
         }
     }
 }

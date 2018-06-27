@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{0384A8AA-B705-4A43-90D0-910B6539A4EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiApplication2", "WebApiApplication2\WebApiApplication2.csproj", "{B3E5A2C4-DC52-4000-AC85-68EDEAEF3898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerService", "CrawlerService\CrawlerService.csproj", "{7625B62F-6891-4C4B-9183-89CEF1294CDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0384A8AA-B705-4A43-90D0-910B6539A4EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0384A8AA-B705-4A43-90D0-910B6539A4EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0384A8AA-B705-4A43-90D0-910B6539A4EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3E5A2C4-DC52-4000-AC85-68EDEAEF3898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E5A2C4-DC52-4000-AC85-68EDEAEF3898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E5A2C4-DC52-4000-AC85-68EDEAEF3898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E5A2C4-DC52-4000-AC85-68EDEAEF3898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7625B62F-6891-4C4B-9183-89CEF1294CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7625B62F-6891-4C4B-9183-89CEF1294CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7625B62F-6891-4C4B-9183-89CEF1294CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7625B62F-6891-4C4B-9183-89CEF1294CDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

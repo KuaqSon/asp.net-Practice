@@ -1,0 +1,50 @@
+﻿@model WebApplication1.Models.Employee
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Date Of Birth
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                PhoneNumber
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+       
+            <tr>
+                <td>
+                    @Model.Name
+                </td>
+                <td>
+                    @Model.Dob
+                </td>
+                <td>
+                    @Model.Gender
+                </td>
+                <td>
+                    @Model.Address
+                </td>
+                <td>
+                    @Model.PhoneNumber
+                </td>
+            </tr>
+        
+    </tbody>
+</table>

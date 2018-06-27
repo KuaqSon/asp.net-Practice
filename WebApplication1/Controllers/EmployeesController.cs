@@ -2,13 +2,29 @@
 using System.Text;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using System.Data.Entity;
+using System.Linq;
+using AutoMapper;
 
 namespace WebApplication1.Controllers
 {
     public class EmployeesController : Controller
     {
-        private MovieDbContext db = new MovieDbContext();
+        private MovieDbContext _db;// = new MovieDbContext();
 
+        public EmployeesController(MovieDbContext db)
+        {
+            _db = db;
+        }
+
+        public ActionResult Index ()
+        {
+            var customer = _db.Customers.First();
+
+            var model = AutoMapper.Mapper.Map<Employee>(customer);
+            return View(model);
+        }
+        
         // GET: /AjaxStuff/Create
         public ActionResult Create()
         {
@@ -28,8 +44,8 @@ namespace WebApplication1.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Employees.Add(employee);
-                    db.SaveChanges();
+                    _db.Employees.Add(employee);
+                    _db.SaveChanges();
                     return Content("Record added successfully !");
                 }
                 else
